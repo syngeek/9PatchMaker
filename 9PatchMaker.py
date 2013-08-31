@@ -6,11 +6,11 @@ __author__ = 'jen'
 
 
 #sizes indicate width of final 9 patch image. Format "directory name:width"
-sizes = {"drawable-ldpi": 240,
-         "drawable-mdpi": 240,
-         "drawable-hdpi": 320,
-         "drawable-xhdpi": 480,
-         "drawable-xxhdpi":720,
+sizes = {"drawable-ldpi": 200,
+         "drawable-mdpi": 320,
+         "drawable-hdpi": 480,
+         "drawable-xhdpi": 720,
+         "drawable-xxhdpi": 1080,
          "drawable": 320}
 
 class NinePatchMaker():
@@ -28,6 +28,9 @@ class NinePatchMaker():
             image = PythonMagick.Image(self.path)
             #Resize and measure. Will use this to inform the actual Imagemagick command.
             #Convoluted because there was no way to disable anti-aliasing in PythonMagick.
+            if image.size().width() <= 1080:
+                print "WARNING! This image is too small and might look bad at higher resolutions. It's "+str(image.size().width())+" wide."
+
             image.resize(str(width-2)+"x")
             print "Resized image dimensions for "+directory+": "+str(image.size().width()+2)+"x"+str(image.size().height()+2)
 
