@@ -18,10 +18,7 @@ class NinePatchMaker():
         self.path = path
         self.pathToFile, self.basename = os.path.split(self.path)
         self.filename, self.extension = os.path.splitext(self.basename)
-
         self.out = self.pathToFile+"/res/android_resources/"
-
-        print "Generating output at: " + self.out
         return
 
 
@@ -48,6 +45,7 @@ class NinePatchMaker():
 
     def makeMyFiles(self):
         self.makeDirectories()
+        print "Generating output at: " + self.out
         self.createFiles()
 
 
