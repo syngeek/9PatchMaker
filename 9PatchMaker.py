@@ -27,12 +27,12 @@ class NinePatchMaker():
             #Get the image so we can get some measurements the easy way
             image = PythonMagick.Image(self.path)
             #Resize and measure. Will use this to inform the actual Imagemagick command.
-            #Convoluted because there was no way to disable anti-aliasing in PythonMagick.
-            if image.size().width() <= 1080:
+            #Couldn't do everything in PythonMagick because there was no way to actually disable antialiasing (that I could find...)
+            if image.size().width() < sizes["drawable-xxhdpi"]:
                 print "WARNING! This image is too small and might look bad at higher resolutions. It's "+str(image.size().width())+" wide."
 
             image.resize(str(width-2)+"x")
-            print "Resized image dimensions for "+directory+": "+str(image.size().width()+2)+"x"+str(image.size().height()+2)
+            print "Final image dimensions for "+directory+": "+str(image.size().width()+2)+"x"+str(image.size().height()+2)
 
             os.system("convert "+self.path+" +antialias -blur 0 -resize "+str(width-2)+
                       " -bordercolor 'transparent' -border 1x1 -fill black -draw 'point 1,0' -draw 'point 0,1' -draw 'point "
@@ -47,8 +47,8 @@ class NinePatchMaker():
         return
 
     def makeMyFiles(self):
+        print "****************** \nGenerating output at: " + self.out + "\n******************"
         self.makeDirectories()
-        print "Generating output at: " + self.out
         self.createFiles()
 
 
