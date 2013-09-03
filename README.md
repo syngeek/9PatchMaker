@@ -13,7 +13,7 @@ What it does really well:
 
 --Quickly output a bunch of 9 patch files from a simple cropped image such that the content maintains its aspect ratio and only the outermost edges stretch.
 
-To get started: Install Imagemagick and Python's PIL. Then just run it at the command line with the path to the image file it should process. All of the most common image file formats are acceptable (.png, .jpg, etc.). For a full rundown of formats see: http://www.imagemagick.org/script/formats.php
+To get started: Install Imagemagick and Python PIL. Then just run it at the command line with the path to the image file it should process. All of the most common image file formats are acceptable (.png, .jpg, etc.). For a full rundown of formats see: http://www.imagemagick.org/script/formats.php
 
 (You can also create other sizes, etc. by just changing the entries in the dict for whatever else you need.) 
 
