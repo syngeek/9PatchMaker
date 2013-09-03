@@ -1,5 +1,6 @@
+from PIL.Image import Image
 import os
-import PythonMagick
+
 from argparse import ArgumentParser
 
 __author__ = 'jen'
@@ -24,20 +25,19 @@ class NinePatchMaker():
 
     def createFiles(self):
         for directory, width in sizes.iteritems():
-            #Get the image so we can get some measurements the easy way
-            image = PythonMagick.Image(self.path)
-            #Resize and measure. Will use this to inform the actual Imagemagick command.
-            #Couldn't do everything in PythonMagick because there was no way to actually disable antialiasing (that I could find...)
-            if image.size().width() < sizes["drawable-xxhdpi"]:
-                print "WARNING! This image is too small and might look bad at higher resolutions. It's "+str(image.size().width())+" wide."
+            image = Image.open(self.path)
+            startingWidth, startingHeight = image.size
+            resizedHeight = round(startingHeight * (float(width-2)/startingWidth)) #height based on resized width before border applied
 
-            image.resize(str(width-2)+"x")
-            print "Final image dimensions for "+directory+": "+str(image.size().width()+2)+"x"+str(image.size().height()+2)
+            if startingWidth < sizes["drawable-xxhdpi"]:
+                print "WARNING! This image is too small and might look bad at higher resolutions. It's "+str(startingWidth)+" wide."
+
+            #image.resize(str(width-2)+"x")
+            print "Final image dimensions for "+directory+": "+str(width)+"x"+str(resizedHeight+2)
 
             os.system("convert "+self.path+" +antialias -blur 0 -resize "+str(width-2)+
                       " -bordercolor 'transparent' -border 1x1 -fill black -draw 'point 1,0' -draw 'point 0,1' -draw 'point "
-                      +str(width-2)+",0' -draw 'point 0,"+str(image.size().height())+"' "+self.out+directory+"/"+self.filename+".9.png")
-
+                      +str(width-2)+",0' -draw 'point 0,"+str(resizedHeight)+"' "+self.out+directory+"/"+self.filename+"noPM.9.png")
 
     def makeDirectories(self):
         for directory, size in sizes.iteritems():
