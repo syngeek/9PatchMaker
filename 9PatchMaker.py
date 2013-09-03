@@ -1,6 +1,7 @@
 from PIL.Image import Image
 import os
 
+import Image
 from argparse import ArgumentParser
 
 __author__ = 'jen'
@@ -24,23 +25,22 @@ class NinePatchMaker():
 
 
     def createFiles(self):
-        for directory, width in sizes.iteritems():
+        for directory, width in sizes.items():
             image = Image.open(self.path)
             startingWidth, startingHeight = image.size
-            resizedHeight = round(startingHeight * (float(width-2)/startingWidth)) #height based on resized width before border applied
+            resizedHeight = int(round(startingHeight * (float(width-2)/startingWidth))) #height based on resized width before border applied
 
             if startingWidth < sizes["drawable-xxhdpi"]:
                 print "WARNING! This image is too small and might look bad at higher resolutions. It's "+str(startingWidth)+" wide."
 
-            #image.resize(str(width-2)+"x")
             print "Final image dimensions for "+directory+": "+str(width)+"x"+str(resizedHeight+2)
 
-            os.system("convert "+self.path+" +antialias -blur 0 -resize "+str(width-2)+
+            os.system("convert "+self.path+" +antialias -blur 0 -resize "+str(width-2)+"x"+str(resizedHeight)+
                       " -bordercolor 'transparent' -border 1x1 -fill black -draw 'point 1,0' -draw 'point 0,1' -draw 'point "
-                      +str(width-2)+",0' -draw 'point 0,"+str(resizedHeight)+"' "+self.out+directory+"/"+self.filename+"noPM.9.png")
+                      +str(width-2)+",0' -draw 'point 0,"+str(resizedHeight)+"' "+self.out+directory+"/"+self.filename+".9.png")
 
     def makeDirectories(self):
-        for directory, size in sizes.iteritems():
+        for directory, size in sizes.items():
             if not os.path.exists(self.out+directory):
                 print "Creating "+self.out+directory
                 os.makedirs(self.out+directory)
