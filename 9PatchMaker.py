@@ -20,7 +20,9 @@ class NinePatchMaker():
         self.path = path
         self.pathToFile, self.basename = os.path.split(self.path)
         self.filename, self.extension = os.path.splitext(self.basename)
-        self.out = self.pathToFile+"/res/android_resources/"
+        if self.pathToFile == '':
+            self.pathToFile = './'
+        self.out = os.path.join(self.pathToFile+"/res/android_resources/")
         return
 
 
@@ -63,5 +65,6 @@ args=parser.parse_args()
 
 
 if( __name__ == '__main__'):
+    print (args.path)
     patch = NinePatchMaker(args.path)
     patch.makeMyFiles()
