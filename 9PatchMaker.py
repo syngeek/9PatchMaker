@@ -38,7 +38,7 @@ class NinePatchMaker():
             print "Final image dimensions for "+directory+": "+str(width)+"x"+str(resizedHeight+2)
 
             os.system("convert "+self.path+" +antialias -blur 0 -resize "+str(width-2)+"x"+str(resizedHeight)+
-                      " -bordercolor 'transparent' -border 1x1 -fill black -draw 'point 1,0' -draw 'point 0,1' -draw 'point "
+                      "\! -bordercolor 'transparent' -border 1x1 -fill black -draw 'point 1,0' -draw 'point 0,1' -draw 'point "
                       +str(width-2)+",0' -draw 'point 0,"+str(resizedHeight)+"' "+self.out+directory+"/"+self.filename+".9.png")
 
     def makeDirectories(self):
